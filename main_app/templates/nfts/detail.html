@@ -9,6 +9,10 @@
         <p>Description: {{ nft.attributes|linebreaks }}</p>
         <p>Date Purchased: {{ nft.purchased }}</p>
     </div>
+    <div class="card-action">
+        <a href="{% url 'nfts_update' nft.id %}">Edit</a>
+        <a href="{% url 'nfts_delete' nft.id %}">Delete</a>
+      </div>
 </div>
 
 {% endblock %}

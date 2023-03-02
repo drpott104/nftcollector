@@ -1,5 +1,5 @@
 from django.shortcuts import render
-# from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Nft
 
 # Create your views here.
@@ -16,3 +16,15 @@ def nfts_index(request):
 def nfts_detail(request, nft_id):
     nft = Nft.objects.get(id=nft_id)
     return render(request, 'nfts/detail.html', { 'nft': nft })
+
+class NftCreate(CreateView):
+    model = Nft
+    fields = '__all__'
+
+class NftUpdate(UpdateView):
+    model = Nft
+    fields = ['attributes']
+
+class NftDelete(DeleteView):
+    model = Nft
+    success_url = '/nfts'
