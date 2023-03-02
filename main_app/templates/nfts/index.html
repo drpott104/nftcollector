@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>All my NFTs</h1>
+
+{% for nft in nfts %}
+        <div class="card">
+            <span class="card-title">{{ nft.collection}} {{nft.name }}</span>
+            <p>Attributes: {{ nft.attributes }}</p>
+            <p>Date purchased: {{ nft.date }}</p>
+        </div>
+    </a>
+{% endfor %}
+
+{% endblock %}
