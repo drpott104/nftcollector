@@ -1,12 +1,6 @@
 from django.shortcuts import render
 # from django.views.generic.edit import CreateView, UpdateView, DeleteView
-# from .models import Nft
-
-nfts = [
-    {'name': '#9900', 'collection': 'Toxic Skulls Club', 'attributes': 'fumes, diamonds, trickster', 'date': 'Jan 18, 2023'},
-    {'name': '#7686', 'collection': 'Toxic Skulls Club', 'attributes': 'fumes, spikes, sailor', 'date': 'Nov 23, 2022'},
-]
-
+from .models import Nft
 
 # Create your views here.
 def home(request):
@@ -16,6 +10,9 @@ def about(request):
     return render(request, 'about.html')
 
 def nfts_index(request):
-    return render(request, 'nfts/index.html', {
-        'nfts': nfts
-    })
+    nfts = Nft.objects.all()
+    return render(request, 'nfts/index.html', { 'nfts': nfts })
+
+def nfts_detail(request, nft_id):
+    nft = Nft.objects.get(id=nft_id)
+    return render(request, 'nfts/detail.html', { 'nft': nft })

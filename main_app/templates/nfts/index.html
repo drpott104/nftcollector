@@ -4,10 +4,11 @@
 <h1>All my NFTs</h1>
 
 {% for nft in nfts %}
+    <a href="/nfts/{{ nft.id }}">
         <div class="card">
             <span class="card-title">{{ nft.collection}} {{nft.name }}</span>
             <p>Attributes: {{ nft.attributes }}</p>
-            <p>Date purchased: {{ nft.date }}</p>
+            <p>Date purchased: {{ nft.purchased }}</p>
         </div>
     </a>
 {% endfor %}
