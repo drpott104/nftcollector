@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Nft
+from django.views.generic import ListView, DetailView
+from .models import Nft, Pet
 from .forms import FeedingForm
 
 # Create your views here.
@@ -16,10 +17,12 @@ def nfts_index(request):
 
 def nfts_detail(request, nft_id):
     nft = Nft.objects.get(id=nft_id)
+    id_list = nft.pets.all().values_list('id')
+    pets_nft_doesnt_have = Pet.objects.exclude(id__in=id_list)
     feeding_form = FeedingForm()
     return render(request, 'nfts/detail.html', {
-        'nft': nft,
-        'feeding_form': feeding_form,
+        'nft': nft, 'feeding_form': feeding_form,
+        'pets': pets_nft_doesnt_have
     })
 
 class NftCreate(CreateView):
@@ -49,3 +52,29 @@ def add_feeding(request, nft_id):
         new_feeding.nft_id = nft_id
         new_feeding.save()
     return redirect('detail', nft_id=nft_id)
+
+class PetList(ListView):
+  model = Pet
+
+class PetDetail(DetailView):
+  model = Pet
+
+class PetCreate(CreateView):
+  model = Pet
+  fields = '__all__'
+
+class PetUpdate(UpdateView):
+  model = Pet
+  fields = ['name', 'description']
+
+class PetDelete(DeleteView):
+  model = Pet
+  success_url = '/pets'
+
+def assoc_pet(request, nft_id, pet_id):
+  Nft.objects.get(id=nft_id).pets.add(pet_id)
+  return redirect('detail', nft_id=nft_id)
+
+def unassoc_pet(request, nft_id, pet_id):
+  Nft.objects.get(id=nft_id).pets.remove(pet_id)
+  return redirect('detail', nft_id=nft_id)

@@ -8,12 +8,20 @@ MEALS = (
 )
 
 # Create your models here.
+class Pet(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=50)
+    def __str__(self):
+        return self.name
+    def get_absolute_url(self):
+        return reverse('pets_detail', kwargs={'pk': self.id})
+
 class Nft(models.Model):
     collection = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     attributes = models.TextField(max_length=250)
     purchased = models.DateField()
-
+    pets = models.ManyToManyField(Pet)
     def __str__(self):
         return f'{self.collection} {self.name}'
     
